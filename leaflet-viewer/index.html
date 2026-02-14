@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html style="height:100%; margin:0; padding:0;">
+<head>
+  <meta charset="utf-8">
+  <title>OSM Tile Viewer</title>
+  <link rel="stylesheet" href="/assets/leaflet.css" />
+</head>
+<body style="height:100%; margin:0; padding:0;">
+  <div id="map" style="height:100%"></div>
+
+  <script src="/assets/leaflet.js"></script>
+  <script src="/assets/leaflet-hash.js"></script>
+
+  <script>
+    var map = L.map('map').setView([0, 0], 2);
+    L.tileLayer(window.location.origin.replace(':8081', ':8080') + '/tiles/{z}/{x}/{y}.png', {
+        maxZoom: 20,
+        maxNativeZoom: 20
+    }).addTo(map);
+    var hash = L.hash(map);
+  </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+# Secrets and sensitive data
+secrets/
+*.env
+.env
+
+# OSM PBF extracts
+data/*.osm.pbf
+data/*.osm.pbf.*
+
+# External geodata downloaded by scripts
+apache-renderd/external-data/*.zip
+apache-renderd/external-data/*.shp
+apache-renderd/external-data/*.shx
+apache-renderd/external-data/*.dbf
+apache-renderd/external-data/*.prj
+apache-renderd/external-data/*.idx
+
+# Docker artifacts
+docker-compose.override.yml
+
+# IDE / Editor artifacts
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+._*
+.Spotlight-V100
+.Trashes

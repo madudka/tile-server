@@ -1,0 +1,109 @@
+services:
+  # PostgreSQL with PostGIS extension
+  postgres:
+    build:
+      context: ./postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD_FILE: ${POSTGRES_PASSWORD_FILE}
+    secrets:
+      - postgres_password
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./postgres/config/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+      - ./postgres/config/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  # Mapnik XML generator (run manually with: docker compose --profile generate-xml up)
+  mapnik-xml-generator:
+    build:
+      context: ./mapnik-xml-generator
+    environment:
+      DB_HOST: ${POSTGRES_HOST}
+      DB_PORT: ${POSTGRES_PORT}
+      DB_NAME: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASS_FILE: ${POSTGRES_PASSWORD_FILE}
+      USE_PLACEHOLDERS: ${USE_PLACEHOLDERS}
+    secrets:
+      - postgres_password
+    volumes:
+      - ./apache-renderd/mapnik.xml:/output/mapnik.xml
+    profiles: ["generate-xml"]
+
+  # OSM data importer (run manually with: docker compose --profile import up)
+  importer:
+    build:
+      context: ./importer
+    environment:
+      DB_HOST: ${POSTGRES_HOST}
+      DB_PORT: ${POSTGRES_PORT}
+      DB_NAME: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASS_FILE: ${POSTGRES_PASSWORD_FILE}
+      IMPORT_MODE: ${IMPORT_MODE}
+    secrets:
+      - postgres_password
+    volumes:
+      - ./data:/data:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+    profiles: ["import"]
+
+  # Apache renderd tile server
+  apache-renderd:
+    build:
+      context: ./apache-renderd
+    ports:
+      - "8080:80"
+    environment:
+      DB_HOST: ${POSTGRES_HOST}
+      DB_PORT: ${POSTGRES_PORT}
+      DB_NAME: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASS_FILE: ${POSTGRES_PASSWORD_FILE}
+      USE_PLACEHOLDERS: ${USE_PLACEHOLDERS}
+      IMPORT_EXTERNAL_DATA: ${IMPORT_EXTERNAL_DATA}
+    secrets:
+      - postgres_password
+    volumes:
+      - tiles:/var/lib/mod_tile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Leaflet web viewer
+  leaflet-viewer:
+    build:
+      context: ./leaflet-viewer
+    ports:
+      - "8081:80"
+    depends_on:
+      - apache-renderd
+    restart: unless-stopped
+
+# Named volumes for persistent data
+volumes:
+  postgres_data:
+  tiles:
+
+# Explicit network for better isolation and control
+networks:
+  default:
+    name: tile-server-net
+    driver: bridge
+
+# Secrets management
+secrets:
+  postgres_password:
+    file: ./secrets/postgres_password.txt
