@@ -13,7 +13,6 @@ A complete OpenStreetMap tile server stack based on **PostgreSQL 18**, **PostGIS
 
 - [Features](#-features)
 - [Architecture](#-architecture)
-- [Prerequisites](#-prerequisites)
 - [Project Structure](#-project-structure)
 - [Configuration](#-configuration)
 - [Quick Start](#-quick-start)
@@ -67,18 +66,6 @@ A complete OpenStreetMap tile server stack based on **PostgreSQL 18**, **PostGIS
 3. **importer** — Imports OSM PBF data into database (run once or update)
 4. **apache-renderd** — Renders and serves tiles via HTTP
 5. **leaflet-viewer** — Web interface for tile visualization
-
----
-
-## 📦 Prerequisites
-
-- **Docker** >= 20.10
-- **Docker Compose** >= 2.0 (or `docker compose` plugin)
-- **Minimum RAM**: 8GB (16GB recommended for full planet import)
-- **Disk Space**: 
-  - Europe: ~50GB
-  - Full planet: ~1TB
-- **OS**: Linux, macOS, or Windows with WSL2
 
 ---
 
