@@ -248,7 +248,7 @@ docker compose up -d apache-renderd leaflet-viewer
 |---------|-----|-------------|
 | **Tile Server** | http://localhost:8080/tiles/{z}/{x}/{y}.png | Rendered tiles |
 | **Leaflet Viewer** | http://localhost:8081 | Web interface |
-| **mod_tile Stats** | http://localhost:8080/mod_tile | Rendering statistics |
+| **mod_tile Stats** | http://localhost:8080/mod_tiles | Rendering statistics |
 
 ---
 
@@ -326,7 +326,7 @@ http://localhost:8080/tiles/{z}/{x}/{y}.png
 ### View mod_tile Statistics
 
 ```bash
-curl http://localhost:8080/mod_tile
+curl http://localhost:8080/mod_tiles
 ```
 
 Output includes:

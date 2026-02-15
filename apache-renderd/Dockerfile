@@ -74,8 +74,7 @@ RUN mkdir -p /etc/renderd/data && \
     chmod +x /home/renderer/get-external-data.py
 
 # Configure Apache virtual host
-RUN a2dissite 000-default && \
-    a2enmod headers
+RUN a2dissite 000-default
 
 COPY mod_tile/renderd.conf /etc/apache2/conf-available/renderd.conf
 COPY apache.conf /etc/apache2/sites-available/tile-server.conf
