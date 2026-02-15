@@ -18,6 +18,7 @@ A complete OpenStreetMap tile server stack based on **PostgreSQL 18**, **PostGIS
 - [Quick Start](#-quick-start)
 - [Usage](#-usage)
 - [Updating Data](#-updating-data)
+- [🔌 Offline External Data Setup](#-offline-external-data-setup)
 - [⚡ PostgreSQL Performance Tuning](#-postgresql-performance-tuning)
 - [🔧 PostGIS Version Management](#-postgis-version-management)
 - [🐛 Troubleshooting](#-troubleshooting)
@@ -232,6 +233,9 @@ This will download and import external geospatial data (coastlines, boundaries, 
 
 > 💡 **Note:** After the first successful run, you can set `IMPORT_EXTERNAL_DATA=false` to skip this step on subsequent restarts and speed up startup time.
 
+**For offline/air-gapped environments:**
+pre-download ZIP files to `apache-renderd/external-data/` (see [Offline External Data Setup](#-offline-external-data-setup)).
+
 ### 9. Start Tile Server
 
 ```bash
@@ -378,6 +382,24 @@ If you need to refresh coastlines, boundaries, etc.:
 ```bash
 docker compose restart apache-renderd
 ```
+
+---
+
+## 📦 Offline External Data Setup
+
+For **fully offline operation**, external geospatial data (coastlines, water polygons, administrative boundaries) must be pre-downloaded and placed in the `apache-renderd/external-data/` directory before starting `apache-renderd`.
+
+### Required Files
+
+Place these ZIP files in `apache-renderd/external-data/`:
+
+| File | Description | Approx. Size | Source |
+|------|-------------|--------------|--------|
+| `antarctica-icesheet-outlines-3857.zip` | Antarctica ice sheet outlines | 53.6 MB | [osmdata.openstreetmap.de](https://osmdata.openstreetmap.de/download/antarctica-icesheet-outlines-3857.zip) |
+| `antarctica-icesheet-polygons-3857.zip` | Antarctica ice sheet polygons | 52.7 MB | [osmdata.openstreetmap.de](https://osmdata.openstreetmap.de/download/antarctica-icesheet-polygons-3857.zip) |
+| `ne_110m_admin_0_boundary_lines_land.zip` | Country boundaries (Natural Earth) | 57 KB | [naciscdn.org](https://naciscdn.org/naturalearth/110m/cultural/ne_110m_admin_0_boundary_lines_land.zip) |
+| `simplified-water-polygons-split-3857.zip` | Simplified water polygons (low zoom) | 24 MB | [osmdata.openstreetmap.de](https://osmdata.openstreetmap.de/download/simplified-water-polygons-split-3857.zip) |
+| `water-polygons-split-3857.zip` | Detailed water polygons (high zoom) | 907.9 MB | [osmdata.openstreetmap.de](https://osmdata.openstreetmap.de/download/water-polygons-split-3857.zip) |
 
 ---
 
