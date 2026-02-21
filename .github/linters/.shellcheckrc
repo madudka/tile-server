@@ -1,0 +1,2 @@
+# Rules: https://github.com/koalaman/shellcheck/wiki
+disable=SC2154
