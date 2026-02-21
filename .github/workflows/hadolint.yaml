@@ -1,0 +1,32 @@
+name: Hadolint
+
+on:
+  push:
+    paths:
+      - '**/Dockerfile'
+      - '.github/workflows/hadolint.yml'
+      - '.github/linters/.hadolint.yaml'
+  pull_request:
+    paths:
+      - '**/Dockerfile'
+      - '.github/workflows/hadolint.yml'
+      - '.github/linters/.hadolint.yaml'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run hadolint
+        uses: hadolint/hadolint-action@v3.3.0
+        with:
+          config: .github/linters/.hadolint.yaml
+          dockerfile: |
+            apache-renderd/Dockerfile
+            importer/Dockerfile
+            leaflet-viewer/Dockerfile
+            mapnik-xml-generator/Dockerfile
+            postgres/Dockerfile
+          no-fail: false
+          verbose: true

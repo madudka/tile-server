@@ -1,0 +1,4 @@
+# Rules: https://github.com/hadolint/hadolint/wiki/Rules
+ignored:
+  - DL3008 # Pin versions in apt get install
+  - SC2086 #Double quote to prevent globbing and word splitting
