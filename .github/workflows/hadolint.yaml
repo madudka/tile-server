@@ -22,11 +22,6 @@ jobs:
         uses: hadolint/hadolint-action@v3.3.0
         with:
           config: .github/linters/.hadolint.yaml
-          dockerfile: |
-            apache-renderd/Dockerfile
-            importer/Dockerfile
-            leaflet-viewer/Dockerfile
-            mapnik-xml-generator/Dockerfile
-            postgres/Dockerfile
+          recursive: true
           no-fail: false
           verbose: true
