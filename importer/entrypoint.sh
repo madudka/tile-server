@@ -12,7 +12,8 @@ echo "🚀 Starting OSM data import..."
 
 # Load database password from secret file or environment
 if [ -n "${DB_PASS_FILE:-}" ] && [ -f "${DB_PASS_FILE}" ]; then
-  export PGPASSWORD="$(cat "${DB_PASS_FILE}")"
+  PGPASSWORD="$(cat "${DB_PASS_FILE}")"
+  export PGPASSWORD
 elif [ -n "${DB_PASS:-}" ]; then
   export PGPASSWORD="${DB_PASS}"
 else

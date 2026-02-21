@@ -12,7 +12,8 @@ echo "🔧 Generation mode: USE_PLACEHOLDERS=${USE_PLACEHOLDERS}"
 
 # Load database password from file if provided
 if [ -n "${DB_PASS_FILE:-}" ] && [ -f "${DB_PASS_FILE}" ]; then
-  export DB_PASS="$(cat "${DB_PASS_FILE}")"
+  DB_PASS="$(cat "${DB_PASS_FILE}")"
+  export DB_PASS
 fi
 
 # Validate required environment variables (skip if using placeholders)

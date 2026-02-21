@@ -5,7 +5,8 @@ echo "⏳ Waiting for PostgreSQL to be ready..."
 
 # Load database password from secret file if provided
 if [ -n "${DB_PASS_FILE:-}" ] && [ -f "${DB_PASS_FILE}" ]; then
-  export DB_PASS="$(cat "${DB_PASS_FILE}")"
+  DB_PASS="$(cat "${DB_PASS_FILE}")" || exit 1
+  export DB_PASS
 fi
 
 # Wait for PostgreSQL availability
@@ -53,7 +54,7 @@ if [ "${USE_PLACEHOLDERS}" = "true" ]; then
   echo "🔧 Patching mapnik.xml with database credentials..."
 
   tmpfile=$(mktemp)
-  trap "rm -f ${tmpfile}" EXIT
+  trap 'rm -f "$tmpfile"' EXIT
 
   sed \
     -e "s|{{DB_HOST}}|${DB_HOST}|g" \
@@ -71,7 +72,6 @@ fi
 # Start renderd daemon in background
 echo "🚀 Starting renderd in background..."
 renderd -f -c /etc/renderd.conf &
-RENDERD_PID=$!
 
 # Wait for renderd socket to be available
 while [ ! -S /run/renderd/renderd.sock ]; do
