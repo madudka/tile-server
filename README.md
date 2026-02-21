@@ -4,6 +4,9 @@
 ![Docker](https://img.shields.io/badge/docker-required-blue.svg)
 ![PostgreSQL](https://img.shields.io/badge/postgresql-18-blue.svg)
 ![PostGIS](https://img.shields.io/badge/postgis-3.6-blue.svg)
+![Shellcheck](https://github.com/madudka/tile-server/actions/workflows/shellcheck.yaml/badge.svg)
+![Hadolint](https://github.com/madudka/tile-server/actions/workflows/hadolint.yaml/badge.svg)
+![Yamllint](https://github.com/madudka/tile-server/actions/workflows/yamllint.yml/badge.svg)
 
 A complete OpenStreetMap tile server stack based on **PostgreSQL 18**, **PostGIS 3.6**, **renderd**, **Mapnik**, and **Apache**. Designed for offline rendering and customizable map styles.
 
