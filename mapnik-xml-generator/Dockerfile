@@ -17,7 +17,7 @@ RUN apt-get update && \
         libcairo2-dev \
         libprotobuf-dev \
         protobuf-compiler && \
-    npm install -g carto && \
+    npm install -g carto@1.2.0 && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
