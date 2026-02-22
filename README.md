@@ -14,13 +14,14 @@ A complete OpenStreetMap tile server stack based on **PostgreSQL 18**, **PostGIS
 
 ## 📋 Table of Contents
 
-- [Features](#-features)
-- [Architecture](#-architecture)
-- [Project Structure](#-project-structure)
-- [Configuration](#-configuration)
-- [Quick Start](#-quick-start)
-- [Usage](#-usage)
-- [Updating Data](#-updating-data)
+- [✨ Features](#-features)
+- [🏗️ Architecture](#-architecture)
+- [📁 Project Structure](#-project-structure)
+- [⚙️ Configuration](#️-configuration)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Usage](#-usage)
+- [🎯 Pre-rendering Tiles](#-pre-rendering-tiles)
+- [🔄 Updating Data](#-updating-data)
 - [🔌 Offline External Data Setup](#-offline-external-data-setup)
 - [⚡ PostgreSQL Performance Tuning](#-postgresql-performance-tuning)
 - [🔧 PostGIS Version Management](#-postgis-version-management)
@@ -337,6 +338,38 @@ Output includes:
 - Cache hits/misses
 - Queue length
 - Render times
+
+---
+
+## 🎯 Pre-rendering Tiles 
+
+To pre-generate map tiles for a specific region using `render_list` inside the Docker container:
+
+```bash
+# Basic syntax
+docker-compose exec apache-renderd render_list [options]
+
+# Example: Pre-render zoom levels 10–14 for a region (replace X/Y with your tile coordinates)
+docker-compose exec apache-renderd render_list \
+  -x 2170 -X 2180 \
+  -y 1230 -Y 1240 \
+  -z 10 -Z 14 \
+  -m tiles \
+  -n 4 -v
+```
+
+**Common options:**
+| Option | Description |
+|--------|-------------|
+| `-a` | Render all tiles in zoom range (instead of reading from STDIN) |
+| `-z` / `-Z` | Min/max zoom level |
+| `-x` / `-X` / `-y` / `-Y` | Tile coordinate bounds |
+| `-m` | Map name (from `renderd.conf`, default: `default`) |
+| `-n` | Parallel rendering threads |
+| `-v` | Verbose output |
+| `-f` | Force re-render even if tile exists |
+
+📖 Full documentation: [render_list(1) manpage](https://manpages.debian.org/bookworm/renderd/render_list.1.en.html)
 
 ---
 
