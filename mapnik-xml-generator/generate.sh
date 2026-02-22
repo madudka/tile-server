@@ -74,6 +74,7 @@ fi
 # Generate Mapnik XML from CartoCSS
 echo "🎨 Generating XML..."
 mkdir -p "${OUTPUT_DIR}"
+rm -rf "${OUTPUT_DIR}/mapnik.xml"
 carto project.mml > "${OUTPUT_DIR}/mapnik.xml"
 
 echo "✅ mapnik.xml successfully saved to ${OUTPUT_DIR}/"
