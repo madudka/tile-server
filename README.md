@@ -83,6 +83,7 @@ tile-server/
 │   ├── entrypoint.sh
 │   ├── mapnik.xml
 │   ├── renderd.conf
+│   ├── external-data/
 │   └── symbols/
 ├── data/                    # OSM PBF data files (place your .osm.pbf here)
 │   └── *.osm.pbf
