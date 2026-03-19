@@ -145,7 +145,7 @@ Create `secrets/postgres_password.txt` with your database password:
 ```bash
 mkdir -p secrets
 echo "your_secure_password" > secrets/postgres_password.txt
-chmod 600 secrets/postgres_password.txt
+chmod 644 secrets/postgres_password.txt
 ```
 
 > ⚠️ **Security Note**: Never commit `secrets/` directory to Git. It's already in `.gitignore`.
