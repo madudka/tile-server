@@ -117,32 +117,26 @@ tile-server/
 
 ### Environment Variables (`.env`)
 
-Copy `.env.example` to `.env` and customize:
+Copy `.env.example` to `.env` and customize the following variables:
 
-```env
-# PostgreSQL Configuration
-POSTGRES_USER=renderer                    # Database username
-POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password  # Path to password file
-POSTGRES_DB=gis                           # Database name
+| Variable | Default | Description & Recommendations |
+|----------|---------|-------------------------------|
+| **PostgreSQL Configuration** | | |
+| `POSTGRES_USER` | `renderer` | Database username. |
+| `POSTGRES_PASSWORD_FILE` | `/run/secrets/postgres_password` | Path to the password file (Docker secret). |
+| `POSTGRES_DB` | `gis` | Database name. |
+| **Database Connection** | | |
+| `POSTGRES_HOST` | `postgres` | Service name in `docker-compose.yml`. |
+| `POSTGRES_PORT` | `5432` | PostgreSQL port. |
+| **Importer Configuration** | | |
+| `IMPORT_MODE` | `auto` | `auto`: detects existing tables.<br>`create`: fresh import (drops existing).<br>`append`: incremental update. |
+| `OSM2PGSQL_CACHE` | `2048` | RAM (MB) for node caching in `--slim` mode.<br>⚠️ **Recommendation:** Use the **smaller** of: <br>• Size of your `.pbf` file<br>• **75% of available RAM** |
+| `OSM2PGSQL_THREADS` | `4` | Parallel processing threads for `osm2pgsql`.<br>⚠️ **Recommendation:** CPU cores, but **capped at 4**. |
+| **Renderd Configuration** | | |
+| `USE_PLACEHOLDERS` | `true` | `true`: patch `mapnik.xml` with DB credentials.<br>`false`: use pre-configured `mapnik.xml`. |
+| `IMPORT_EXTERNAL_DATA` | `true` | `true`: import coastlines, boundaries, etc.<br>`false`: skip external data import. |
 
-# Database Connection (used by importer, renderd, mapnik)
-POSTGRES_HOST=postgres                    # Service name in docker-compose
-POSTGRES_PORT=5432                        # PostgreSQL port
-
-# Importer Configuration
-IMPORT_MODE=auto                          # auto | create | append
-                                      # auto: detects existing tables
-                                      # create: fresh import (drops existing)
-                                      # append: incremental update
-
-# Renderd Configuration
-USE_PLACEHOLDERS=true                     # true | false
-                                      # true: patch mapnik.xml with DB credentials
-                                      # false: use pre-configured mapnik.xml
-IMPORT_EXTERNAL_DATA=true                 # true | false
-                                      # true: import coastlines, boundaries, etc.
-                                      # false: skip external data import
-```
+> 💡 **Performance Tip**: Insufficient `OSM2PGSQL_CACHE` is the #1 cause of slow imports. If cache < data size, `osm2pgsql` falls back to disk I/O, reducing speed by 10–100×.
 
 ### Secrets
 
