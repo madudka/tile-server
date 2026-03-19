@@ -49,6 +49,8 @@ services:
       DB_USER: ${POSTGRES_USER}
       DB_PASS_FILE: ${POSTGRES_PASSWORD_FILE}
       IMPORT_MODE: ${IMPORT_MODE}
+      OSM2PGSQL_CACHE: ${OSM2PGSQL_CACHE}
+      OSM2PGSQL_THREADS: ${OSM2PGSQL_THREADS}
     secrets:
       - postgres_password
     volumes:

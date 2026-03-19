@@ -85,8 +85,8 @@ osm2pgsql \
   --port="${DB_PORT}" \
   --username="${DB_USER}" \
   --style="${LUA_FILE}" \
-  --cache=2048 \
-  --number-processes=4 \
+  --cache="${OSM2PGSQL_CACHE}" \
+  --number-processes="${OSM2PGSQL_THREADS}" \
   --hstore \
   "${PBF_FILES[@]}"
 
