@@ -150,6 +150,18 @@ chmod 644 secrets/postgres_password.txt
 
 > ⚠️ **Security Note**: Never commit `secrets/` directory to Git. It's already in `.gitignore`.
 
+### 🎨 Map Appearance Customization
+
+You can customize visual aspects of the map by editing the `./apache-renderd/mapnik.xml` file.
+
+#### Changing the Background Color
+
+To change the map background color, locate the `<Map>` element in `mapnik.xml` and modify the `background-color` attribute:
+
+```xml
+<Map background-color="#f2efe9" ...>
+```
+
 ---
 
 ## 🚀 Quick Start
