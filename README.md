@@ -368,13 +368,17 @@ docker-compose exec apache-renderd render_list \
 **Common options:**
 | Option | Description |
 |--------|-------------|
-| `-a` | Render all tiles in zoom range (instead of reading from STDIN) |
-| `-z` / `-Z` | Min/max zoom level |
-| `-x` / `-X` / `-y` / `-Y` | Tile coordinate bounds |
-| `-m` | Map name (from `renderd.conf`, default: `default`) |
-| `-n` | Parallel rendering threads |
-| `-v` | Verbose output |
-| `-f` | Force re-render even if tile exists |
+| `-a`, `--all` | Render all tiles in zoom range instead of reading from STDIN |
+| `-f`, `--force` | Force re-render even if tile appears up-to-date |
+| `-m`, `--map=MAP` | Map name from `renderd.conf` (default: `default`) |
+| `-l`, `--max-load=LOAD` | Pause rendering if system load exceeds value (default: `16`) |
+| `-s`, `--socket=SOCKET` | Unix domain socket for renderd communication |
+| `-n`, `--num-threads=N` | Number of parallel rendering threads (default: `1`) |
+| `-t`, `--tile-dir=DIR` | Tile cache directory (default: `/var/cache/renderd/tiles`) |
+| `-z`, `--min-zoom=ZOOM` | Minimum zoom level to render (default: `0`) |
+| `-Z`, `--max-zoom=ZOOM` | Maximum zoom level to render (default: `20`) |
+| `-x MINX` / `-X MAXX` | Minimum/maximum X tile coordinate |
+| `-y MINY` / `-Y MAXY` | Minimum/maximum Y tile coordinate |
 
 📖 Full documentation: [render_list(1) manpage](https://manpages.debian.org/bookworm/renderd/render_list.1.en.html)
 
