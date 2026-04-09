@@ -138,7 +138,37 @@ Copy `.env.example` to `.env` and customize the following variables:
 
 > 💡 **Performance Tip**: Insufficient `OSM2PGSQL_CACHE` is the #1 cause of slow imports. If cache < data size, `osm2pgsql` falls back to disk I/O, reducing speed by 10–100×.
 
-### Secrets
+### ⛏️ Renderd Daemon Configuration
+
+Renderd behavior is controlled via `./apache-renderd/renderd.conf`.
+
+#### `num_threads` Parameter
+
+Specifies the number of parallel threads used by renderd for tile rendering.
+
+```ini
+[renderd]
+num_threads=4
+```
+
+| Value | Description |
+|-------|-------------|
+| `1`–`N` | Fixed number of rendering threads |
+| `-1` | Auto-detect: use number of CPU cores available |
+| *(default)* | `4` (if not specified) |
+
+> 💡 **Performance Tip:** Set `num_threads` based on your CPU cores and workload:
+> - For **CPU-bound rendering**: use `num_threads = CPU cores`
+> - For **mixed workloads** (DB + rendering): use `num_threads = CPU cores / 2`
+> - Avoid setting too high: excessive threads increase context switching and may degrade performance
+
+> ⚠️ **Note:** This setting controls renderd worker threads only. It is independent from:
+> - `OSM2PGSQL_THREADS` (used during data import)
+> - Apache/MPM worker settings (used for HTTP request handling)
+
+📖 Full documentation: [renderd.conf(5) manpage](https://manpages.debian.org/unstable/renderd/renderd.conf.5.en.html)
+
+### 🔐 Secrets
 
 Create `secrets/postgres_password.txt` with your database password:
 
